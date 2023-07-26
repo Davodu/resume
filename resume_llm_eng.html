@@ -1,0 +1,169 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <title>Resume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,200,700" rel="stylesheet"> 
+    <style>
+    h1,h2,h3,h4,h5,h6,p,a,li,span{font-family:'Raleway',sans-serif; }.resume{background-color:#1f1f1f;min-height:100vh}.resume .main{height:100%;width:750px;background-color:#fff;padding:0 25px;margin:0 auto}.resume .main .header{border-bottom:2px solid #ddd}.resume .main .header .page-title-container{margin:0 auto;text-align:center;padding-bottom:10px}.resume .main .header .page-title{font-size:35pt;display:inline}.resume .main .header .page-title-first{font-weight:400}.resume .main .header .page-title-last{font-weight:200}.resume .main .header .header-icons{text-align:center}.resume .main .header .header-icons .page-subhead{margin:1rem 10px;display:inline}.resume .main .header .fa{padding-right:10px}.resume .main .indented{padding-left:40px}.resume .main .category-row{padding-bottom:1px}.resume .main .category-row .category{margin-right:10px;padding-left:5px;padding-right:10px;border-bottom:1px solid #ddd;border-right:1px solid #ddd}.resume .main .category-row .category-row-title{margin:.4rem 0; font-size: 30px;}.resume .main .category-row .category-title,.resume .main .category-row .category-subtitle{display:inline;margin-top:10px;margin-bottom:5px}.resume .main .category-row .category-bullets{margin-top:5px}.resume .main .category-row p,.resume .main .category-row li{font-size:smaller}sidebar-category:last-of-type .category{border-bottom:0!important;padding-bottom:0!important;margin-bottom:0!important} category:last-of-type category-item:last-of-type .category{
+        border-bottom:0!important;
+        padding-bottom:0!important;
+        margin-bottom:0!important
+        }
+        a.page-subhead{color:initial;text-decoration:none}
+    
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+    <script>
+    
+    angular.module("Resume",["ngMaterial"])
+    .component("resume",{
+        transclude:true,
+        template:'<div class="resume">\n    <section class="main" ng-transclude></section>\n  </div>'
+    })
+    .component("resumeHeading",{
+        controllerAs:"r",
+        bindings:{
+            firstName:"@",
+            lastName:"@",
+            website:"@",
+            phone:"@",
+            email:"@",
+            github:"@",
+        },template:`<div class="header">    
+                       <div class="page-title-container">   
+                        <h1 class="page-title page-title-first">{{r.firstName}} </h1>     
+                        <h1 class="page-title page-title-last">{{r.lastName}}</h1>   
+                       </div>
+                       
+                       <div class="header-icons"> 
+                             <a ng-if="r.website" class="md-subhead page-subhead" ng-href="http://{{r.website}}" target="_blank"> 
+                                <i class="fa fa-lg fa-code"></i>{{r.website}}
+                             </a>     
+                             <span ng-if="r.phone" class="md-subhead page-subhead"> 
+                                <i class="fa fa-lg fa-phone"></i>{{r.phone}}
+                             </span> 
+                             
+                             <a ng-if="r.email" class="md-subhead page-subhead" ng-href="mailto:{{r.email}}" target="_blank"> 
+                                <i class="fa fa-lg fa-envelope"></i>{{r.email}}      
+                             </a>     
+                             <a ng-if="r.github" class="md-subhead page-subhead" ng-href="https://github.com/{{r.github}}" target="_blank"> 
+                                <i class="fa fa-lg fa-github"></i>{{r.github}}     
+                             </a>
+                             <a ng-if="r.linkedin" class="md-subhead page-subhead" ng-href="https://linkedin.com/in/{{r.linkedin}}" target="_blank"> 
+                                <i class="fa fa-lg fa-linkedin-square"></i>{{r.linkedin}}   
+                             </a>
+                        </div>
+                    </div>`
+    })
+    .component("resumeBody",{
+        transclude:true,
+        template:'<div layout="row" ng-transclude></div>'
+    })
+    .component("resumeColumn",{
+        transclude:true,
+        template:"<div ng-transclude></div>"
+    })
+    .component("sidebarCategory",{
+        controllerAs:"r",
+        bindings:{
+            name:"@"
+        },
+        transclude:true,
+        template:'<div flex="" class="category-row">\n    <div class="category">\n      <h2 class="category-row-title">{{r.name}}</h2>\n      <ng-transclude></ng-transclude>\n    </div>\n  </div>'
+    })
+    .component("category",{
+        controllerAs:"r",
+        bindings:{
+            name:"@"
+        },transclude:true,
+        template:'<div flex="" class="category-row">\n    <h4 class="category-row-title">{{r.name}}</h4>\n    <ng-transclude></ng-transclude>\n  </div>'})
+    .component("categoryItem",{
+        controllerAs:"r",
+        bindings:{
+            title:"@",
+            subtitle:"@"
+        },transclude:true,
+        template:'<div class="category">\n      <h5 class="category-title md-body-2">{{r.title}}</h5>&nbsp;\n      <h5 class="category-subtitle md-caption">{{r.subtitle}}</h5>\n      <ul class="category-bullets" ng-transclude></ul>\n  </div>'
+    });
+    </script>
+    
+    </head><body ng-app="Resume" ng-cloak="">
+        <resume>
+            <br />
+            <br />
+            <resume-heading first-name="Davies " last-name=" Omale Odu" linkedin="davodu" email="daviesodu@gmail.com" github="@davodu" >
+        </resume-heading>
+            <resume-body>
+                <resume-column flex="40">
+                    <sidebar-category name="SUMMARY">
+                        <p>Software Engineer with 7 years of experience.
+                        Passionate about using Machine learning and AI to unlock patterns and solve interesting challenges.</p>
+                    </sidebar-category>
+                    <sidebar-category name="EDUCATION">
+                        <!-- <p><b>Springboard, San Francisco</b></p>
+                        <p>March 2019 - Date</p>
+                        <p>AI/Machine Learning Track</p> -->
+                        <p><b>Duke University </b>-  May 2017</p></p>
+                        <p>MSc. Computer Engineering</p>
+                        <p><b>St. Petersburg University, Russia</b> - June 2015</p>
+                        <p>BSc. Electronics Engineering</p>
+                    </sidebar-category>
+                    <sidebar-category name="PROJECTS">
+                        <p><b>Monitoring and Observability for Generative AI</b></p>
+                            <p>B2B SaaS powered by GPT-4 to streamline prompt analytics and provide rich insights into user interactions with virtual assistants.</p>
+                        <p><b>Visual search engine for clothing items</b>
+                            <li>Implemented vector-based indexing and retrieval for efficient semantic search in the visual search engine.</li>
+                            <li>Build with React, Azure Cloud Services, Bing Computer vision API</li>
+                            <li>Won most collaborative project in Microsoft Hack silicon valley 2019</li>
+                        </p>
+                    </sidebar-category>
+                    
+                </resume-column>
+    
+                 <resume-column flex="100">
+
+                    <category name="PROFESSIONAL EXPERIENCE">
+                        <category-item title="Microsoft" subtitle="Software Engineer (June 2017 - June2022)">
+                            <li> ML pipeline engineering on Microsoft Viva Engage </li>
+                            <li> Built a feature store microservice to denormalize data for real-time personalized features.</li>
+                            <li> Created an event logging pipeline to facilitate offline model training and synthetic dataset generation.
+                            <li> Built a GraphQL server to support Yammer's complete UI redesign for loading newsfeeds and real-time messages</li>
+                        </category-item>
+                        <category-item title="Releaf" subtitle="Software Engineer (March - June 2017)">
+                            <li>Pre seed startup industrialising food processing in Africa.</li>
+                            <li>Y Combinator’s (YC) Summer 2017 batch climate tech.</li>
+                            <li>Built and deplpyed an interactive b2b SaaS which indexes businesses and connects farmers with investors.</li>
+                        </category-item>
+                        <category-item title="IBM" subtitle="Software Engineer(June - Dec 2016)">
+                            <li>Built an E2E internal Marketplace SaaS to streamline internal product search. </li>
+                            <li>Technologies leveraged include: NodeJS, AngularJS, Ajax/JQuery, MongoDB, Passport</li>
+                        </category-item>
+                    </category>
+
+                     <category name="SKILLS">
+                            <category-item title="Data Science">
+                                <li><strong>Data Wrangling</strong> SQL, Web Scraping, Model selection,Pandas, Spark  Dataframe </li>
+                                <li><strong>Machine Learning</strong> Distributed ML with Spark. LLM fine-tuning.  Proficiency implementing retrieval augmented generation(RAG) workflows. </li>
+                            </category-item>
+                            <category-item title="Web Applications">
+                                <li><strong>Programming</strong> Python | Javascript </li>
+                                <li><strong>Databases</strong> MongoDB | PostgreSQL </li>
+                                <li><strong>UI/UX</strong> React JS </li>
+                            </category-item>
+                            <category-item title="Relevant courses">
+                                    <p>Probability & Statistics, Linear Algebra, 
+                                     Data Structures & Algorithms, Large Language Models: Application through Production,
+                                     Fundamentals of NLP,
+                                     Business Fundamentals for Engineers,
+                                </p>
+                            </category-item>
+                        </category>
+                </resume-column>
+            </resume-body>
+        </resume>
+    </body></html>
